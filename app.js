@@ -122,5 +122,20 @@ function renderIssues(data) {
 }
 
 
+const tabContainer = document.getElementById('tab-container');
+
+tabContainer.addEventListener('click', (e) => {
+    if (e.target.classList.contains('active-btn')) {
+       
+        document.querySelectorAll('.active-btn').forEach(t => t.classList.remove('tab-active', 'font-bold'));
+        
+        e.target.classList.add('tab-active', 'font-bold');
+
+        const status = e.target.getAttribute('data-status');
+        
+        fetchIssues(status);
+    }
+});
+
 
 
