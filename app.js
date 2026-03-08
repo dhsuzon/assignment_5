@@ -137,6 +137,7 @@ tabContainer.addEventListener('click', (e) => {
     }
 });
 
+
 async function showIssueModal(id) {
     try {
         const res = await fetch(`${API_URL}/issue/${id}`);
@@ -210,7 +211,7 @@ async function showIssueModal(id) {
             </div>
         `;
 
-      
+        // Modal show (DaisyUI default)
         document.getElementById('my_modal_1').showModal();
     } catch (err) {
         console.error("Modal Data Error:", err);
@@ -218,3 +219,17 @@ async function showIssueModal(id) {
     }
 }
 
+document.getElementById('search-btn').onclick = async () => {
+    const query = document.getElementById('search-input').value;
+    if (!query) return renderIssues(allIssues);
+    
+    try {
+        const res = await fetch(`${API_URL}/issues/search?q=${query}`);
+        const result = await res.json();
+        const data = result.data || result;
+        renderIssues(data);
+    } catch (err) { console.error(err); }
+};
+
+
+fetchIssues();
