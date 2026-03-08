@@ -212,12 +212,16 @@ async function showIssueModal(id) {
         `;
 
         
+
+        // Modal show (DaisyUI default)
         document.getElementById('my_modal_1').showModal();
     } catch (err) {
         console.error("Modal Data Error:", err);
         alert("Failed to load issue details");
     }
 }
+
+
 
 
 document.getElementById('search-btn').onclick = async () => {
