@@ -114,21 +114,36 @@ const tabContainer = document.getElementById('tab-container');
 
 tabContainer.addEventListener('click', (e) => {
     if (e.target.classList.contains('active-btn')) {
-        document.querySelectorAll('.active-btn').forEach(t => t.classList.remove('tab-active', 'font-bold'));
+        
+        document.querySelectorAll('.active-btn').forEach(t => {
+            t.classList.remove('tab-active', 'font-bold');
+        });
+
+        
         e.target.classList.add('tab-active', 'font-bold');
 
         const status = e.target.getAttribute('data-status');
 
-        let filtered = allIssues;
+      
+        const loader = document.getElementById('loader');
+        const grid = document.getElementById('issue-grid');
 
+        if (loader) loader.classList.remove('hidden');
+        if (grid) grid.innerHTML = '';
+
+      
+        let filteredIssues = allIssues;
         if (status !== 'all') {
-            filtered = allIssues.filter(issue => 
+            filteredIssues = allIssues.filter(issue => 
                 issue.status?.toLowerCase() === status.toLowerCase()
             );
         }
 
-        console.log(`Showing ${status}: ${filtered.length} issues`);
-        renderIssues(filtered);
+        
+        setTimeout(() => {
+            renderIssues(filteredIssues);
+            if (loader) loader.classList.add('hidden');
+        }, 500);
     }
 });
 
@@ -207,7 +222,7 @@ async function showIssueModal(id) {
     }
 }
 
-// সার্চ
+
 document.getElementById('search-btn').onclick = async () => {
     const query = document.getElementById('search-input').value.trim();
     if (!query) return renderIssues(allIssues);
